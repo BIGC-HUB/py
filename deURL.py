@@ -7,9 +7,9 @@ def writeFile(path, s):
     os.write(fd, bytes(s, 'UTF-8'))
     # 关闭
     os.close(fd)
-    print('%s%s写入完成！' % os.getcwd(), path)
+    print('写入完成！%s\%s' % (os.getcwd(), path))
 
-def main (url) :
+def main(url) :
     # 开始
     try :
         url = urllib.request.Request(url)
@@ -21,8 +21,16 @@ def main (url) :
     # 解析 html
     miao = html.read().decode('UTF-8')
     # 写入
-    writeFile("a.html", miao)
+    writeFile("test.html", miao)
+
 
 if __name__ == '__main__' :
-    url = 'http://jandan.net/pic/'
+    url = 'http://hd.8264.com/'
     main(url)
+
+# '''
+# 姓名：{name}
+# 网址：{url}'''.format(**{
+#     'name': '瓜',
+#     'url': 'space.bilibili.com/39066904',
+# })
