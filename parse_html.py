@@ -1,13 +1,26 @@
+#coding=utf-8
 import re, urllib.request, os, sys, random, json
-# save
-def writeFile(path, s):
+# 写入
+def save(path, s, append=False):
+    if append:
+        mode = os.O_RDWR|os.O_CREAT|os.O_APPEND
+    else:
+        mode = os.O_RDWR|os.O_CREAT
+        # 删除
+        if os.access(path, os.F_OK|os.R_OK|os.W_OK):
+            os.remove(path)
     # 打开
-    fd = os.open(path, os.O_RDWR|os.O_CREAT)
+    fd = os.open(path, mode)
     # 写入
     os.write(fd, bytes(s, 'UTF-8'))
     # 关闭
     os.close(fd)
     print('写入完成！%s\%s' % (os.getcwd(), path))
+# 读取
+def load(path):
+    # http://www.runoob.com/python/python-func-open.html
+    db = open(path,'wb+').read().decode('UTF-8')
+    return db
 # html
 def init_html(url):
     # 开始
@@ -47,18 +60,22 @@ def init_json(url):
     li = re.findall('<li class="wonderful-listItem ">([\s\S]+?)<\/li>', html)
     arr = init_li(li)
     return arr
+
 # main
 def main():
-    start = 1
-    end = 245
-
+    start = 3
+    end = 7
+    # 写入
     arr = []
+    data = load("db.json")
+    if data != '':
+        arr = json.loads()
     for i in range(start, end + 1):
-        print('提示：正在下载第 %s 页……', i)
+        print('提示：正在写入页码……', i)
         url = 'http://hd.8264.com/xianlu-0-0-0-0-0-2-' + str(i)
         arr = arr + init_json(url)
-    # 写入
-    writeFile("db.json", json.dumps(arr, indent=2, ensure_ascii=False))
+        # 写入
+        save("db.json", json.dumps(arr, indent=2, ensure_ascii=False))
 
 if __name__ == '__main__' :
     main()
