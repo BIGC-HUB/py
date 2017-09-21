@@ -68,7 +68,7 @@ def init_json(url):
 def main():
     # 1 - 245
     start = 1
-    end = 2
+    end = 245
     # 写入
     for i in range(start, end + 1):
         print('提示：正在写入页码……', i)
